@@ -9,12 +9,14 @@ export interface Patient {
   registeredAt: Date;
   status: 'waiting-triage' | 'in-triage' | 'waiting-doctor' | 'in-consultation' | 'completed';
   priority?: PriorityLevel;
+  attendanceType?: 'clinical' | 'psychiatric';
   triageNotes?: string;
   assignedRoom?: string;
 }
 
 export interface TriageCall {
   ticketNumber: string;
+  patientName?: string;
   type: 'triage' | 'doctor';
   room?: string;
   priority?: PriorityLevel;

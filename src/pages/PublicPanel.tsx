@@ -45,6 +45,12 @@ export default function PublicPanel() {
                     </div>
                   )}
                   
+                  {currentCall.type === 'doctor' && currentCall.patientName && (
+                    <div className="text-4xl font-semibold text-foreground">
+                      {currentCall.patientName}
+                    </div>
+                  )}
+                  
                   <div className="text-5xl font-semibold">
                     {currentCall.type === 'triage' ? (
                       <>

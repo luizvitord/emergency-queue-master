@@ -77,6 +77,7 @@ export default function Doctor() {
                             </div>
                             <p className="text-sm text-muted-foreground">
                               Age: {new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear()} • 
+                              Type: {patient.attendanceType === 'clinical' ? 'Clínico' : 'Psiquiátrico'} •
                               Registered: {patient.registeredAt.toLocaleTimeString()}
                             </p>
                             {patient.triageNotes && (

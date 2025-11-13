@@ -6,7 +6,7 @@ interface PatientContextType {
   recentCalls: TriageCall[];
   registerPatient: (data: { fullName: string; dateOfBirth: string; cpf: string }) => Patient;
   callForTriage: (patientId: string) => void;
-  assignPriority: (patientId: string, priority: PriorityLevel, notes: string) => void;
+  assignPriority: (patientId: string, priority: PriorityLevel, attendanceType: 'clinical' | 'psychiatric', notes: string) => void;
   callForDoctor: (patientId: string, room: string) => void;
   completeConsultation: (patientId: string) => void;
   getWaitingForTriage: () => Patient[];
@@ -57,10 +57,10 @@ export const PatientProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   }, [patients]);
 
-  const assignPriority = useCallback((patientId: string, priority: PriorityLevel, notes: string) => {
+  const assignPriority = useCallback((patientId: string, priority: PriorityLevel, attendanceType: 'clinical' | 'psychiatric', notes: string) => {
     setPatients(prev => prev.map(p => 
       p.id === patientId 
-        ? { ...p, status: 'waiting-doctor' as const, priority, triageNotes: notes } 
+        ? { ...p, status: 'waiting-doctor' as const, priority, attendanceType, triageNotes: notes } 
         : p
     ));
   }, []);
@@ -76,6 +76,7 @@ export const PatientProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (patient) {
       const call: TriageCall = {
         ticketNumber: patient.ticketNumber,
+        patientName: patient.fullName,
         type: 'doctor',
         room,
         priority: patient.priority,
